@@ -94,7 +94,7 @@
       <div class="max-w-2xl">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-xs sm:text-sm font-medium mb-4 sm:mb-6">
           <span class="w-2 h-2 rounded-full bg-alert-400 pulse-dot"></span>
-          Live • 20 Aug 2026
+          Live • 21 Aug 2026
         </div>
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">
           The Real Impact of<br>
@@ -128,14 +128,28 @@
     </div>
   </header>
 
-  <!-- LATEST NEWS BAR – edit the newsItems list in the script near the bottom to update -->
-  <div class="bg-slate-900 text-white" id="newsBar">
+  <!-- LATEST NEWS BAR – scrolling ticker -->
+  <div class="bg-slate-900 text-white overflow-hidden" id="newsBar">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center gap-3 text-sm">
-      <span class="shrink-0 px-2 py-0.5 rounded bg-rose-500 text-[10px] font-bold uppercase tracking-wide">Latest</span>
-      <a id="newsLink" href="#" target="_blank" rel="noopener" class="truncate hover:underline flex-1 min-w-0">Loading…</a>
+      <span class="shrink-0 px-2 py-0.5 rounded bg-rose-500 text-[10px] font-bold uppercase tracking-wide">Live</span>
+      <div class="flex-1 min-w-0 overflow-hidden relative h-5">
+        <div id="newsTicker" class="absolute whitespace-nowrap" style="animation: ticker 32s linear infinite;">
+          <a id="newsLink" href="#" target="_blank" rel="noopener" class="hover:underline text-white/95"></a>
+          <span class="mx-6 text-slate-500">•</span>
+          <a id="newsLink2" href="#" target="_blank" rel="noopener" class="hover:underline text-white/80"></a>
+          <span class="mx-6 text-slate-500">•</span>
+          <a id="newsLink3" href="#" target="_blank" rel="noopener" class="hover:underline text-white/80"></a>
+          <span class="mx-6 text-slate-500">•</span>
+          <a id="newsLink4" href="#" target="_blank" rel="noopener" class="hover:underline text-white/80"></a>
+        </div>
+      </div>
       <a id="newsRead" href="#" target="_blank" rel="noopener" class="shrink-0 text-teal-300 hover:text-white text-xs font-semibold hidden sm:inline">Read →</a>
     </div>
   </div>
+  <style>
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-33%); } }
+    #newsTicker:hover { animation-play-state: paused; }
+  </style>
 
   <!-- INTERACTIVE TAB BAR (sticky on mobile) -->
   <div class="sticky top-14 sm:top-16 z-40 bg-white border-b border-slate-200 shadow-sm">
@@ -750,11 +764,15 @@
       if (el) el.textContent = (base + count).toLocaleString();
     })();
 
-    // ========== NEWS BAR ==========
-    // Curated fallback (always available)
+    // ========== NEWS BAR (scrolling ticker) ==========
+    // Curated list – newest first. Includes today's DCCEEW story.
     const newsItems = [
       {
-        title: "1,000+ birds found dead in three mass mortality events in South Australia — H5 bird flu suspected",
+        title: "WA projects strengthen bird flu resilience (DCCEEW – 21 Aug)",
+        url: "https://www.dcceew.gov.au/about/news/wa-projects-strengthen-bird-flu-resilience"
+      },
+      {
+        title: "1,000+ birds found dead in three mass mortality events in South Australia",
         url: "https://www.abc.net.au/news/2026-08-20/1000-bird-deaths-linked-to-h5n1-flu-and-three-mass-mortalities/107058878"
       },
       {
@@ -772,25 +790,26 @@
       {
         title: "First Australian little penguin death from H5 confirmed on Phillip Island",
         url: "https://www.theguardian.com/world/2026/aug/15/little-penguin-found-dead-with-h5-bird-flu-on-victorias-phillip-island"
-      },
-      {
-        title: "Risk to people in Australia from H5 bird flu remains low (Australian CDC)",
-        url: "https://www.cdc.gov.au/newsroom/news-and-articles/risk-people-australia-h5-bird-flu-remains-low"
       }
     ];
 
-    function setNewsBar(item) {
-      const link = document.getElementById('newsLink');
+    function fillTicker(items) {
+      const ids = ['newsLink', 'newsLink2', 'newsLink3', 'newsLink4'];
+      ids.forEach((id, i) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const item = items[i % items.length];
+        el.href = item.url;
+        el.textContent = item.title;
+      });
       const read = document.getElementById('newsRead');
-      if (link) { link.href = item.url; link.textContent = item.title; }
-      if (read) { read.href = item.url; }
+      if (read) read.href = items[0].url;
     }
 
-    // Show curated item immediately
-    if (newsItems.length) setNewsBar(newsItems[0]);
+    // Show curated immediately
+    fillTicker(newsItems);
 
-    // Attempt live Google News RSS pull for "bird flu Australia"
-    // Uses public rss2json proxy. Falls back silently if blocked or empty.
+    // Attempt live Google News RSS for fresher headlines
     (async function loadLiveNews() {
       try {
         const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=bird+flu+Australia+when:7d&hl=en-AU&gl=AU&ceid=AU:en');
@@ -799,11 +818,13 @@
         if (!res.ok) return;
         const data = await res.json();
         if (data.status === 'ok' && data.items && data.items.length > 0) {
-          const top = data.items[0];
-          setNewsBar({
-            title: top.title.replace(/ - [^-]+$/, '').trim(),
-            url: top.link
-          });
+          const live = data.items.slice(0, 4).map(it => ({
+            title: it.title.replace(/ - [^-]+$/, '').trim(),
+            url: it.link
+          }));
+          // Keep today's DCCEEW story first if present, otherwise prepend curated top
+          const merged = [newsItems[0], ...live.filter(l => !l.title.includes('WA projects'))];
+          fillTicker(merged.slice(0, 6));
         }
       } catch (e) {
         // Keep curated fallback

@@ -128,15 +128,6 @@
     </div>
   </header>
 
-  <!-- LATEST NEWS BAR – edit the newsItems list in the script near the bottom to update -->
-  <div class="bg-slate-900 text-white" id="newsBar">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center gap-3 text-sm">
-      <span class="shrink-0 px-2 py-0.5 rounded bg-rose-500 text-[10px] font-bold uppercase tracking-wide">Latest</span>
-      <a id="newsLink" href="#" target="_blank" rel="noopener" class="truncate hover:underline flex-1 min-w-0">Loading…</a>
-      <a id="newsRead" href="#" target="_blank" rel="noopener" class="shrink-0 text-teal-300 hover:text-white text-xs font-semibold hidden sm:inline">Read →</a>
-    </div>
-  </div>
-
   <!-- INTERACTIVE TAB BAR (sticky on mobile) -->
   <div class="sticky top-14 sm:top-16 z-40 bg-white border-b border-slate-200 shadow-sm">
     <div class="max-w-7xl mx-auto px-3 sm:px-6">
@@ -673,44 +664,12 @@
     (function() {
       const key = 'flockSpotters';
       let count = parseInt(localStorage.getItem(key) || '0', 10);
+      // base number so new visitors see activity
       const base = 128;
       count = count + 1;
       localStorage.setItem(key, count);
       const el = document.getElementById('spotterCount');
       if (el) el.textContent = (base + count).toLocaleString();
-    })();
-
-    // ========== NEWS BAR – edit this list to update the top banner ==========
-    // Put the newest story first. Only the first item is shown in the top bar.
-    const newsItems = [
-      {
-        title: "1,000+ birds found dead in three mass mortality events in South Australia — H5 bird flu suspected",
-        url: "https://www.abc.net.au/news/2026-08-20/1000-bird-deaths-linked-to-h5n1-flu-and-three-mass-mortalities/107058878"
-      },
-      {
-        title: "More than 1,000 birds found dead amid ‘significant’ H5 escalation (The Guardian)",
-        url: "https://www.theguardian.com/world/2026/aug/20/more-than-1000-birds-found-dead-in-three-mass-mortality-events-amid-significant-h5-escalation-in-australia"
-      },
-      {
-        title: "28 dead penguins on King Island spark bird flu fears",
-        url: "https://www.news.com.au/technology/science/animals/28-dead-penguins-found-on-tasmanias-king-island-spark-bird-flu-fears/news-story/fa7b6e8a2e7335d364c24b1c08801061"
-      },
-      {
-        title: "First Australian little penguin death from H5 confirmed on Phillip Island",
-        url: "https://www.theguardian.com/world/2026/aug/15/little-penguin-found-dead-with-h5-bird-flu-on-victorias-phillip-island"
-      },
-      {
-        title: "Risk to people in Australia from H5 bird flu remains low (Australian CDC)",
-        url: "https://www.cdc.gov.au/newsroom/news-and-articles/risk-people-australia-h5-bird-flu-remains-low"
-      }
-    ];
-    (function() {
-      if (newsItems.length === 0) return;
-      const item = newsItems[0];
-      const link = document.getElementById('newsLink');
-      const read = document.getElementById('newsRead');
-      if (link) { link.href = item.url; link.textContent = item.title; }
-      if (read) { read.href = item.url; }
     })();
   </script>
 </body>

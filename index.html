@@ -259,6 +259,43 @@
         <p class="text-[11px] text-slate-400 mt-3">Other detections include silver gulls and additional seabirds. Data reflects public reports as of late August 2026.</p>
       </div>
 
+      <!-- How transmission works -->
+      <div class="mb-8">
+        <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-1">How transmission works</h2>
+        <p class="text-sm text-slate-500 mb-4">The main pathways H5 bird flu moves between birds and into new areas</p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center mb-3">
+              <i class="fas fa-plane"></i>
+            </div>
+            <div class="font-bold text-slate-900 text-sm mb-1">1. Migratory birds</div>
+            <p class="text-xs text-slate-600 leading-relaxed">Skuas, petrels and terns carry the virus across oceans. Early Australian cases were linked to the sub-Antarctic pathway.</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mb-3">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="font-bold text-slate-900 text-sm mb-1">2. Dense colonies</div>
+            <p class="text-xs text-slate-600 leading-relaxed">Close nesting and shared water mean one infected bird can expose many others quickly — especially in tern and penguin colonies.</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-3">
+              <i class="fas fa-water"></i>
+            </div>
+            <div class="font-bold text-slate-900 text-sm mb-1">3. Environment</div>
+            <p class="text-xs text-slate-600 leading-relaxed">Virus in faeces, water and shoreline can remain infectious for days. Cool, wet coastal conditions favour survival.</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center mb-3">
+              <i class="fas fa-exclamation"></i>
+            </div>
+            <div class="font-bold text-slate-900 text-sm mb-1">4. Mass mortality</div>
+            <p class="text-xs text-slate-600 leading-relaxed">When the virus hits a naïve colony, deaths can rise rapidly. The 1,000+ crested terns in SA are a clear example.</p>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-3">Human risk remains low. Transmission to people requires close contact with infected birds or their environments.</p>
+      </div>
+
       <!-- How Why When -->
       <div class="bg-ocean-800 text-white rounded-2xl p-5 sm:p-8 mb-8">
         <h2 class="text-xl sm:text-2xl font-bold mb-5 sm:mb-6 text-center">How • Why • When</h2>
@@ -713,8 +750,8 @@
       if (el) el.textContent = (base + count).toLocaleString();
     })();
 
-    // ========== NEWS BAR – edit this list to update the top banner ==========
-    // Put the newest story first. Only the first item is shown in the top bar.
+    // ========== NEWS BAR ==========
+    // Curated fallback (always available)
     const newsItems = [
       {
         title: "1,000+ birds found dead in three mass mortality events in South Australia — H5 bird flu suspected",
@@ -741,13 +778,36 @@
         url: "https://www.cdc.gov.au/newsroom/news-and-articles/risk-people-australia-h5-bird-flu-remains-low"
       }
     ];
-    (function() {
-      if (newsItems.length === 0) return;
-      const item = newsItems[0];
+
+    function setNewsBar(item) {
       const link = document.getElementById('newsLink');
       const read = document.getElementById('newsRead');
       if (link) { link.href = item.url; link.textContent = item.title; }
       if (read) { read.href = item.url; }
+    }
+
+    // Show curated item immediately
+    if (newsItems.length) setNewsBar(newsItems[0]);
+
+    // Attempt live Google News RSS pull for "bird flu Australia"
+    // Uses public rss2json proxy. Falls back silently if blocked or empty.
+    (async function loadLiveNews() {
+      try {
+        const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=bird+flu+Australia+when:7d&hl=en-AU&gl=AU&ceid=AU:en');
+        const proxy = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+        const res = await fetch(proxy, { signal: AbortSignal.timeout(4500) });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.status === 'ok' && data.items && data.items.length > 0) {
+          const top = data.items[0];
+          setNewsBar({
+            title: top.title.replace(/ - [^-]+$/, '').trim(),
+            url: top.link
+          });
+        }
+      } catch (e) {
+        // Keep curated fallback
+      }
     })();
   </script>
 </body>

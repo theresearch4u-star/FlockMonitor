@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0f766e">
+  <title>Bird Flu Impact Hub | Australia H5N1 Insights</title>
+  <meta name="description" content="Free public resource tracking the real-world impact of H5 bird flu on Australian wildlife, tourism, communities and ecosystems. Statistics, locality maps and clear explanations for students, professionals, media and enthusiasts.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ocean: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a' },
+            alert: { 400: '#fb923c', 500: '#f97316', 600: '#ea580c' },
+            sky: { 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+    .hero-gradient { background: linear-gradient(135deg, #0f766e 0%, #0e7490 45%, #1e3a5f 100%); }
+    .card-hover { transition: all 0.25s ease; }
+    @media (hover: hover) {
+      .card-hover:hover { transform: translateY(-3px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
+    }
+    .stat-number { font-variant-numeric: tabular-nums; }
+    .pulse-dot { animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(1.2); }
+    }
+    .tab-btn { transition: all 0.2s ease; }
+    .tab-btn.active { background: #0d9488; color: white; box-shadow: 0 4px 12px rgba(13,148,136,0.35); }
+    .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+    .tab-panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    /* iOS safe areas */
+    .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    .safe-top { padding-top: env(safe-area-inset-top); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased safe-top">
+
+  <!-- STICKY NAV (mobile optimised) -->
+  <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-14 sm:h-16">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-ocean-600 flex items-center justify-center text-white font-bold text-base sm:text-lg">BF</div>
+          <div>
+            <div class="font-bold text-ocean-800 text-sm sm:text-base leading-tight">Bird Flu Impact Hub</div>
+            <div class="text-[10px] sm:text-xs text-slate-500">Australia • Public Resource</div>
+          </div>
+        </div>
+        <!-- Desktop links -->
+        <div class="hidden lg:flex items-center gap-5 text-sm font-medium">
+          <button onclick="switchTab('overview')" class="text-slate-600 hover:text-ocean-600">Overview</button>
+          <button onclick="switchTab('stats')" class="text-slate-600 hover:text-ocean-600">Statistics</button>
+          <button onclick="switchTab('locality')" class="text-slate-600 hover:text-ocean-600">Locality</button>
+          <button onclick="switchTab('impacts')" class="text-slate-600 hover:text-ocean-600">Impacts</button>
+          <a href="factsheet.html" class="px-4 py-2 bg-ocean-600 text-white rounded-lg hover:bg-ocean-700 transition text-sm">Fact Sheet</a>
+        </div>
+        <!-- Mobile menu button -->
+        <button id="menuBtn" class="lg:hidden w-10 h-10 flex items-center justify-center text-slate-600 rounded-lg active:bg-slate-100" aria-label="Menu">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+      <!-- Mobile menu -->
+      <div id="mobileMenu" class="hidden lg:hidden pb-4 space-y-1 border-t border-slate-100 pt-2">
+        <button onclick="switchTab('overview'); closeMobile()" class="block w-full text-left py-3 px-2 text-slate-700 font-medium rounded-lg active:bg-slate-100">Overview</button>
+        <button onclick="switchTab('stats'); closeMobile()" class="block w-full text-left py-3 px-2 text-slate-700 font-medium rounded-lg active:bg-slate-100">Statistics</button>
+        <button onclick="switchTab('locality'); closeMobile()" class="block w-full text-left py-3 px-2 text-slate-700 font-medium rounded-lg active:bg-slate-100">Locality</button>
+        <button onclick="switchTab('impacts'); closeMobile()" class="block w-full text-left py-3 px-2 text-slate-700 font-medium rounded-lg active:bg-slate-100">Impacts</button>
+        <a href="factsheet.html" class="block py-3 px-2 text-ocean-700 font-semibold">Get Fact Sheet →</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO (compact on mobile) -->
+  <header class="hero-gradient text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-20 pointer-events-none">
+      <div class="absolute top-8 left-6 w-48 h-48 sm:w-72 sm:h-72 bg-teal-300 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-4 right-4 w-56 h-56 sm:w-96 sm:h-96 bg-sky-400 rounded-full blur-3xl"></div>
+    </div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 md:py-20">
+      <div class="max-w-2xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-xs sm:text-sm font-medium mb-4 sm:mb-6">
+          <span class="w-2 h-2 rounded-full bg-alert-400 pulse-dot"></span>
+          Live • 20 Aug 2026
+        </div>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">
+          The Real Impact of<br>
+          <span class="text-teal-200">H5 Bird Flu</span><br>
+          in Australia
+        </h1>
+        <p class="mt-4 sm:mt-5 text-base sm:text-lg text-teal-50 leading-relaxed max-w-lg">
+          Clear graphical answers to <strong>what</strong>, <strong>how</strong>, <strong>why</strong>, <strong>when</strong> and the true <strong>impact</strong>.
+        </p>
+      </div>
+
+      <!-- Spotlight card (always visible) -->
+      <div class="mt-8 sm:mt-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 sm:p-6 max-w-xl">
+        <div class="flex items-start gap-3 sm:gap-4">
+          <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-alert-500 flex items-center justify-center text-lg sm:text-xl shrink-0">
+            <i class="fas fa-exclamation-triangle text-white"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-semibold text-teal-200 uppercase tracking-wide">Current Spotlight</div>
+            <h2 class="text-lg sm:text-xl font-bold mt-0.5">King Island, Tasmania</h2>
+            <p class="mt-2 text-sm sm:text-base text-teal-50 leading-snug">
+              28 little penguins + 3 crested terns found dead. Samples under H5 testing. Specialist teams deployed.
+            </p>
+            <div class="mt-3 flex flex-wrap gap-2 text-xs">
+              <span class="px-2.5 py-1 rounded-full bg-alert-500/30 border border-alert-400/40">Under Investigation</span>
+              <span class="px-2.5 py-1 rounded-full bg-white/15">20 Aug 2026</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- INTERACTIVE TAB BAR (sticky on mobile) -->
+  <div class="sticky top-14 sm:top-16 z-40 bg-white border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6">
+      <div class="flex overflow-x-auto gap-1.5 sm:gap-2 py-2.5 sm:py-3 no-scrollbar" style="-webkit-overflow-scrolling: touch;">
+        <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn active shrink-0 px-4 py-2.5 rounded-full text-sm font-semibold bg-slate-100 text-slate-700">
+          <i class="fas fa-home mr-1.5 opacity-70"></i>Overview
+        </button>
+        <button onclick="switchTab('stats')" id="tab-stats" class="tab-btn shrink-0 px-4 py-2.5 rounded-full text-sm font-semibold bg-slate-100 text-slate-700">
+          <i class="fas fa-chart-bar mr-1.5 opacity-70"></i>Statistics
+        </button>
+        <button onclick="switchTab('locality')" id="tab-locality" class="tab-btn shrink-0 px-4 py-2.5 rounded-full text-sm font-semibold bg-slate-100 text-slate-700">
+          <i class="fas fa-map-marker-alt mr-1.5 opacity-70"></i>Locality
+        </button>
+        <button onclick="switchTab('impacts')" id="tab-impacts" class="tab-btn shrink-0 px-4 py-2.5 rounded-full text-sm font-semibold bg-slate-100 text-slate-700">
+          <i class="fas fa-layer-group mr-1.5 opacity-70"></i>Impacts
+        </button>
+        <button onclick="switchTab('data')" id="tab-data" class="tab-btn shrink-0 px-4 py-2.5 rounded-full text-sm font-semibold bg-slate-100 text-slate-700">
+          <i class="fas fa-qrcode mr-1.5 opacity-70"></i>Get Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB PANELS ==================== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 safe-bottom">
+
+    <!-- ===== OVERVIEW TAB ===== -->
+    <div id="panel-overview" class="tab-panel active">
+      <!-- Quick stats -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-8">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5">
+          <div class="text-2xl sm:text-3xl font-extrabold text-ocean-700 stat-number">277</div>
+          <div class="text-xs sm:text-sm text-slate-500 mt-1">Confirmed Events</div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5">
+          <div class="text-2xl sm:text-3xl font-extrabold text-alert-500 stat-number">1,000+</div>
+          <div class="text-xs sm:text-sm text-slate-500 mt-1">Crested Terns</div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5">
+          <div class="text-2xl sm:text-3xl font-extrabold text-sky-600 stat-number">28</div>
+          <div class="text-xs sm:text-sm text-slate-500 mt-1">Little Penguins</div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5">
+          <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600 stat-number">0</div>
+          <div class="text-xs sm:text-sm text-slate-500 mt-1">Poultry Cases</div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5">
+          <div class="text-2xl sm:text-3xl font-extrabold text-indigo-600 stat-number">6</div>
+          <div class="text-xs sm:text-sm text-slate-500 mt-1">States</div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5">
+          <div class="text-2xl sm:text-3xl font-extrabold text-rose-500">Low</div>
+          <div class="text-xs sm:text-sm text-slate-500 mt-1">Human Risk</div>
+        </div>
+      </div>
+
+      <!-- How Why When -->
+      <div class="bg-ocean-800 text-white rounded-2xl p-5 sm:p-8 mb-8">
+        <h2 class="text-xl sm:text-2xl font-bold mb-5 sm:mb-6 text-center">How • Why • When</h2>
+        <div class="grid sm:grid-cols-3 gap-5 sm:gap-6">
+          <div class="text-center sm:text-left">
+            <div class="w-12 h-12 mx-auto sm:mx-0 rounded-xl bg-white/15 flex items-center justify-center text-lg mb-3">
+              <i class="fas fa-route"></i>
+            </div>
+            <h3 class="font-bold">How it spreads</h3>
+            <p class="mt-2 text-sm text-teal-100 leading-relaxed">Migratory seabirds carry the virus. Dense colonies and scavenging amplify transmission on coasts and islands.</p>
+          </div>
+          <div class="text-center sm:text-left">
+            <div class="w-12 h-12 mx-auto sm:mx-0 rounded-xl bg-white/15 flex items-center justify-center text-lg mb-3">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <h3 class="font-bold">Why now</h3>
+            <p class="mt-2 text-sm text-teal-100 leading-relaxed">H5N1 reached the Australian mainland in June 2026. Southern seabird-rich coastlines provided ideal conditions for establishment.</p>
+          </div>
+          <div class="text-center sm:text-left">
+            <div class="w-12 h-12 mx-auto sm:mx-0 rounded-xl bg-white/15 flex items-center justify-center text-lg mb-3">
+              <i class="fas fa-clock"></i>
+            </div>
+            <h3 class="font-bold">When the peaks hit</h3>
+            <p class="mt-2 text-sm text-teal-100 leading-relaxed">Mainland June → Tasmania mid-August → mass mortality events now appearing. Further reports expected in coming weeks.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audience strip -->
+      <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-4">Built for every audience</h2>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-sky-50 border border-sky-100 rounded-xl p-4">
+          <div class="text-sky-600 text-xl mb-2"><i class="fas fa-graduation-cap"></i></div>
+          <div class="font-bold text-sm text-slate-900">Students</div>
+          <p class="text-xs text-slate-600 mt-1">Visuals & frameworks for study</p>
+        </div>
+        <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
+          <div class="text-emerald-600 text-xl mb-2"><i class="fas fa-flask"></i></div>
+          <div class="font-bold text-sm text-slate-900">Science / Medical</div>
+          <p class="text-xs text-slate-600 mt-1">Primary data & risk statements</p>
+        </div>
+        <div class="bg-amber-50 border border-amber-100 rounded-xl p-4">
+          <div class="text-amber-600 text-xl mb-2"><i class="fas fa-paw"></i></div>
+          <div class="font-bold text-sm text-slate-900">Enthusiasts</div>
+          <p class="text-xs text-slate-600 mt-1">Practical guidance & updates</p>
+        </div>
+        <div class="bg-violet-50 border border-violet-100 rounded-xl p-4">
+          <div class="text-violet-600 text-xl mb-2"><i class="fas fa-newspaper"></i></div>
+          <div class="font-bold text-sm text-slate-900">Media & Pros</div>
+          <p class="text-xs text-slate-600 mt-1">Ready stats & locality context</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== STATISTICS TAB ===== -->
+    <div id="panel-stats" class="tab-panel">
+      <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Statistics Layer</h2>
+      <p class="text-slate-600 text-sm sm:text-base mb-6">Confirmed H5 events by jurisdiction. Tap any state card for context.</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-8">
+        <div class="bg-gradient-to-br from-orange-500 to-red-600 text-white rounded-2xl p-4 sm:p-5 shadow-md">
+          <div class="text-xs sm:text-sm font-medium opacity-90">South Australia</div>
+          <div class="text-3xl sm:text-4xl font-extrabold mt-1">170</div>
+          <div class="text-xs mt-2 opacity-90">Highest burden</div>
+        </div>
+        <div class="bg-gradient-to-br from-sky-500 to-blue-700 text-white rounded-2xl p-4 sm:p-5 shadow-md">
+          <div class="text-xs sm:text-sm font-medium opacity-90">Victoria</div>
+          <div class="text-3xl sm:text-4xl font-extrabold mt-1">81</div>
+          <div class="text-xs mt-2 opacity-90">Penguin vaccination</div>
+        </div>
+        <div class="bg-gradient-to-br from-amber-400 to-orange-500 text-white rounded-2xl p-4 sm:p-5 shadow-md">
+          <div class="text-xs sm:text-sm font-medium opacity-90">Western Australia</div>
+          <div class="text-3xl sm:text-4xl font-extrabold mt-1">10</div>
+          <div class="text-xs mt-2 opacity-90">First detections</div>
+        </div>
+        <div class="bg-gradient-to-br from-emerald-500 to-teal-700 text-white rounded-2xl p-4 sm:p-5 shadow-md">
+          <div class="text-xs sm:text-sm font-medium opacity-90">New South Wales</div>
+          <div class="text-3xl sm:text-4xl font-extrabold mt-1">9</div>
+          <div class="text-xs mt-2 opacity-90">Growing</div>
+        </div>
+        <div class="bg-gradient-to-br from-rose-500 to-pink-700 text-white rounded-2xl p-4 sm:p-5 shadow-md ring-2 ring-rose-300">
+          <div class="text-xs sm:text-sm font-medium opacity-90">Tasmania</div>
+          <div class="text-3xl sm:text-4xl font-extrabold mt-1">6+</div>
+          <div class="text-xs mt-2 opacity-90">King Island focus</div>
+        </div>
+        <div class="bg-gradient-to-br from-violet-500 to-purple-700 text-white rounded-2xl p-4 sm:p-5 shadow-md">
+          <div class="text-xs sm:text-sm font-medium opacity-90">Queensland</div>
+          <div class="text-3xl sm:text-4xl font-extrabold mt-1">1</div>
+          <div class="text-xs mt-2 opacity-90">Limited so far</div>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-6">
+        <h3 class="font-bold text-slate-800 mb-4 text-sm sm:text-base">Events by State</h3>
+        <div class="relative" style="height:220px; sm:height:280px;">
+          <canvas id="stateChart"></canvas>
+        </div>
+        <p class="text-[10px] sm:text-xs text-slate-400 mt-4 text-center">Source: DAFF • as of 4pm AEST 19 Aug 2026</p>
+      </div>
+    </div>
+
+    <!-- ===== LOCALITY TAB ===== -->
+    <div id="panel-locality" class="tab-panel">
+      <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Locality Layer</h2>
+      <p class="text-slate-600 text-sm sm:text-base mb-6">Geographic drill-down. Current hotspots and investigation sites.</p>
+
+      <div class="space-y-4 sm:space-y-5">
+        <!-- King Island -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="bg-gradient-to-r from-rose-600 to-pink-600 px-5 py-3.5 text-white flex items-center gap-2">
+            <i class="fas fa-map-pin"></i>
+            <h3 class="font-bold text-base sm:text-lg">King Island, Tasmania</h3>
+            <span class="ml-auto text-xs bg-white/25 px-2 py-0.5 rounded-full">Focus</span>
+          </div>
+          <div class="p-5 space-y-3 text-sm sm:text-base text-slate-700">
+            <p><strong>28 little penguins</strong> and 3 crested terns found dead at Port of Grassy (19–20 Aug).</p>
+            <p>Samples collected for H5 testing. Carcasses being removed to limit further spread. Specialist teams surged to the area.</p>
+            <p class="text-slate-500 text-sm">Tasmania has confirmed H5 cases in wild birds. Officials expect further reports along the north-west coast and King Island.</p>
+            <div class="flex flex-wrap gap-2 pt-1">
+              <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-xs font-medium">Little Penguin</span>
+              <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">Crested Tern</span>
+              <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">Testing ongoing</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- South Australia -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="bg-gradient-to-r from-orange-500 to-red-600 px-5 py-3.5 text-white flex items-center gap-2">
+            <i class="fas fa-water"></i>
+            <h3 class="font-bold text-base sm:text-lg">South Australia Escalation</h3>
+          </div>
+          <div class="p-5 space-y-3 text-sm sm:text-base text-slate-700">
+            <p><strong>1,000+ crested terns</strong> presumed dead across three remote island sites (Troubridge Island, North & South Page Islands).</p>
+            <p>Described as a “significant escalation”. Aerial surveillance and field teams active. Suspected little penguin case on Kangaroo Island also under investigation.</p>
+            <div class="flex flex-wrap gap-2 pt-1">
+              <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">Mass Mortality</span>
+              <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium">Crested Tern</span>
+              <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">Presumed H5</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Victoria note -->
+        <div class="bg-sky-50 border border-sky-100 rounded-2xl p-5 text-sm sm:text-base">
+          <div class="font-bold text-sky-900 mb-1"><i class="fas fa-syringe mr-2"></i>Victoria Response</div>
+          <p class="text-sky-800">First little penguin death confirmed on Phillip Island. World’s largest wild-bird vaccination program underway targeting 5,000+ little penguins at Phillip Island and St Kilda.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== IMPACTS TAB ===== -->
+    <div id="panel-impacts" class="tab-panel">
+      <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Impact Layers</h2>
+      <p class="text-slate-600 text-sm sm:text-base mb-6">Beyond case counts — what H5 is actually affecting.</p>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-lg mb-3">
+            <i class="fas fa-dove"></i>
+          </div>
+          <h3 class="font-bold text-slate-900">Wildlife</h3>
+          <p class="mt-2 text-sm text-slate-600 leading-relaxed">High mortality risk for colonial seabirds and little penguins. Government assessment: nearly 1 in 5 native birds & mammals rated high to extremely high risk. Mass die-offs now occurring.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-lg mb-3">
+            <i class="fas fa-camera"></i>
+          </div>
+          <h3 class="font-bold text-slate-900">Tourism & Economy</h3>
+          <p class="mt-2 text-sm text-slate-600 leading-relaxed">Little penguin colonies are major visitor attractions. Colony losses or temporary closures threaten local jobs and the nature-based tourism brand.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg mb-3">
+            <i class="fas fa-leaf"></i>
+          </div>
+          <h3 class="font-bold text-slate-900">Ecosystems</h3>
+          <p class="mt-2 text-sm text-slate-600 leading-relaxed">Seabirds and penguins play key roles in nutrient cycling. Large-scale losses on remote breeding islands can cascade through coastal food webs.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg mb-3">
+            <i class="fas fa-egg"></i>
+          </div>
+          <h3 class="font-bold text-slate-900">Agriculture</h3>
+          <p class="mt-2 text-sm text-slate-600 leading-relaxed">Zero detections in poultry or commercial production systems so far. Strict biosecurity is holding the line — the buffer remains thin and critical.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-lg mb-3">
+            <i class="fas fa-user-shield"></i>
+          </div>
+          <h3 class="font-bold text-slate-900">Human Health</h3>
+          <p class="mt-2 text-sm text-slate-600 leading-relaxed">Risk to the general public remains low. Avoid contact with sick or dead wild birds. Keep pets away from carcasses. Report via the national hotline.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center text-lg mb-3">
+            <i class="fas fa-people-group"></i>
+          </div>
+          <h3 class="font-bold text-slate-900">Communities</h3>
+          <p class="mt-2 text-sm text-slate-600 leading-relaxed">Distress is real where beloved species are affected. Clear, timely information reduces anxiety and improves official reporting quality.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== GET DATA / QR TAB ===== -->
+    <div id="panel-data" class="tab-panel">
+      <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Data Chapter & Fact Sheet</h2>
+      <p class="text-slate-600 text-sm sm:text-base mb-6">Scan the QR code or tap the button to receive a clean, pre-designed one-page fact sheet. Perfect for sharing, printing or briefing.</p>
+
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 text-center max-w-md mx-auto">
+        <!-- QR Code -->
+        <div class="inline-block p-3 bg-white border-2 border-slate-200 rounded-xl mb-5">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://example.com/birdflu-factsheet&margin=8" 
+               alt="QR code to fact sheet" 
+               width="180" height="180"
+               class="rounded-lg"
+               id="qrImage">
+        </div>
+        <p class="text-sm text-slate-500 mb-5">Scan with your phone camera</p>
+
+        <a href="factsheet.html" 
+           class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3.5 bg-ocean-600 hover:bg-ocean-700 text-white font-semibold rounded-xl transition shadow-md">
+          <i class="fas fa-file-alt"></i>
+          Open Fact Sheet Now
+        </a>
+
+        <div class="mt-6 pt-5 border-t border-slate-100 text-left space-y-2 text-sm text-slate-600">
+          <p class="font-medium text-slate-800">What the recipient gets:</p>
+          <ul class="space-y-1.5">
+            <li class="flex gap-2"><i class="fas fa-check text-teal-600 mt-0.5"></i> One-page visual summary</li>
+            <li class="flex gap-2"><i class="fas fa-check text-teal-600 mt-0.5"></i> Current statistics & locality snapshot</li>
+            <li class="flex gap-2"><i class="fas fa-check text-teal-600 mt-0.5"></i> Impact layers in plain language</li>
+            <li class="flex gap-2"><i class="fas fa-check text-teal-600 mt-0.5"></i> Print / PDF ready design</li>
+            <li class="flex gap-2"><i class="fas fa-check text-teal-600 mt-0.5"></i> Official action guidance</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Subscribe mini -->
+      <div class="mt-8 bg-slate-900 text-white rounded-2xl p-5 sm:p-6 max-w-md mx-auto">
+        <h3 class="font-bold text-lg mb-2">Want ongoing briefings?</h3>
+        <p class="text-sm text-slate-300 mb-4">Short graphical updates when key numbers or localities change.</p>
+        <form onsubmit="event.preventDefault(); alert('Thank you — in a live version this captures email securely.');" class="space-y-3">
+          <input type="email" required placeholder="Your email" 
+                 class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-400 text-sm">
+          <button type="submit" class="w-full py-3 bg-teal-500 hover:bg-teal-400 text-slate-900 font-semibold rounded-xl transition text-sm">
+            Subscribe free
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 text-slate-400 py-10 sm:py-12 safe-bottom">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="grid sm:grid-cols-3 gap-8 text-sm">
+        <div>
+          <div class="flex items-center gap-2 text-white font-bold mb-3">
+            <div class="w-8 h-8 rounded-lg bg-ocean-600 flex items-center justify-center text-sm">BF</div>
+            Bird Flu Impact Hub
+          </div>
+          <p class="leading-relaxed">Free public resource making the how, what, why, when and impact of H5 bird flu in Australia clear and visual.</p>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-3">Sources</h4>
+          <ul class="space-y-1.5">
+            <li>DAFF Latest Data</li>
+            <li>State biosecurity authorities</li>
+            <li>Data current 19–20 Aug 2026</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-3">Important</h4>
+          <p class="leading-relaxed">This summarises public information for awareness. Always follow official DAFF and state advice. Report sick/dead birds to 1800 675 888.</p>
+        </div>
+      </div>
+      <div class="mt-8 pt-6 border-t border-slate-800 text-center text-xs">
+        Open information resource • Not affiliated with government
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Tab switching
+    function switchTab(name) {
+      // Hide all panels
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      // Deactivate all buttons
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      // Activate selected
+      const panel = document.getElementById('panel-' + name);
+      const btn = document.getElementById('tab-' + name);
+      if (panel) panel.classList.add('active');
+      if (btn) btn.classList.add('active');
+      // Scroll to top of content on mobile
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+      // Lazy init chart when stats tab opens
+      if (name === 'stats' && !window.chartDrawn) {
+        drawChart();
+        window.chartDrawn = true;
+      }
+    }
+
+    function closeMobile() {
+      document.getElementById('mobileMenu').classList.add('hidden');
+    }
+
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+
+    // Chart
+    function drawChart() {
+      const ctx = document.getElementById('stateChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['SA', 'VIC', 'WA', 'NSW', 'TAS', 'QLD'],
+          datasets: [{
+            label: 'Events',
+            data: [170, 81, 10, 9, 6, 1],
+            backgroundColor: [
+              'rgba(249, 115, 22, 0.9)',
+              'rgba(14, 165, 233, 0.9)',
+              'rgba(245, 158, 11, 0.9)',
+              'rgba(16, 185, 129, 0.9)',
+              'rgba(244, 63, 94, 0.9)',
+              'rgba(139, 92, 246, 0.9)'
+            ],
+            borderRadius: 6,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { precision: 0, font: { size: 11 } } },
+            x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+          }
+        }
+      });
+    }
+
+    // Update QR to point to the actual factsheet when hosted.
+    // For local testing the relative link still works via the button.
+    // When you host the site, replace the QR data URL with your real domain + /factsheet.html
+  </script>
+</body>
+</html>

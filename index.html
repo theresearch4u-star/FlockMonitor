@@ -97,12 +97,11 @@
           Live • 21 Aug 2026
         </div>
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">
-          The Real Impact of<br>
-          <span class="text-teal-200">H5 Bird Flu</span><br>
-          in Australia
+          H5 Bird Flu<br>
+          <span class="text-teal-200">Hits Australia</span>
         </h1>
         <p class="mt-4 sm:mt-5 text-base sm:text-lg text-teal-50 leading-relaxed max-w-lg">
-          Clear graphical answers to <strong>what</strong>, <strong>how</strong>, <strong>why</strong>, <strong>when</strong> and the true <strong>impact</strong>.
+          The numbers, the locations, the species under threat — and what is being done about it.
         </p>
       </div>
 
@@ -128,27 +127,20 @@
     </div>
   </header>
 
-  <!-- LATEST NEWS BAR – scrolling ticker -->
+  <!-- LATEST NEWS BAR – scrolling ticker with clickable source icons -->
   <div class="bg-slate-900 text-white overflow-hidden" id="newsBar">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center gap-3 text-sm">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex items-center gap-2 sm:gap-3 text-sm">
       <span class="shrink-0 px-2 py-0.5 rounded bg-rose-500 text-[10px] font-bold uppercase tracking-wide">Live</span>
-      <div class="flex-1 min-w-0 overflow-hidden relative h-5">
-        <div id="newsTicker" class="absolute whitespace-nowrap" style="animation: ticker 32s linear infinite;">
-          <a id="newsLink" href="#" target="_blank" rel="noopener" class="hover:underline text-white/95"></a>
-          <span class="mx-6 text-slate-500">•</span>
-          <a id="newsLink2" href="#" target="_blank" rel="noopener" class="hover:underline text-white/80"></a>
-          <span class="mx-6 text-slate-500">•</span>
-          <a id="newsLink3" href="#" target="_blank" rel="noopener" class="hover:underline text-white/80"></a>
-          <span class="mx-6 text-slate-500">•</span>
-          <a id="newsLink4" href="#" target="_blank" rel="noopener" class="hover:underline text-white/80"></a>
-        </div>
+      <div class="flex-1 min-w-0 overflow-hidden relative h-6">
+        <div id="newsTicker" class="absolute whitespace-nowrap flex items-center" style="animation: ticker 40s linear infinite;"></div>
       </div>
-      <a id="newsRead" href="#" target="_blank" rel="noopener" class="shrink-0 text-teal-300 hover:text-white text-xs font-semibold hidden sm:inline">Read →</a>
     </div>
   </div>
   <style>
-    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-33%); } }
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
     #newsTicker:hover { animation-play-state: paused; }
+    .ticker-item { display: inline-flex; align-items: center; gap: 0.35rem; margin-right: 1.75rem; }
+    .ticker-src { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.02em; line-height: 1.2; }
   </style>
 
   <!-- INTERACTIVE TAB BAR (sticky on mobile) -->
@@ -240,10 +232,54 @@
         </div>
       </div>
 
+      <!-- Follow the live feeds – interactive -->
+      <div class="mb-8">
+        <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-1">Follow the live feeds</h2>
+        <p class="text-sm text-slate-500 mb-4">Tap a source to open their latest bird flu coverage</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <a href="https://www.abc.net.au/news/2026-08-21/nsw-bird-flu-detection-merimbula-narooma/107057502" target="_blank" rel="noopener"
+             class="bg-white border border-slate-200 rounded-2xl p-4 text-center shadow-sm hover:border-sky-400 hover:shadow-md transition group">
+            <div class="w-11 h-11 mx-auto rounded-xl bg-black text-white flex items-center justify-center text-sm font-bold mb-2 group-hover:scale-105 transition">ABC</div>
+            <div class="text-xs font-semibold text-slate-800">ABC News</div>
+            <div class="text-[10px] text-sky-600 mt-0.5">NSW cases today</div>
+          </a>
+          <a href="https://www.dcceew.gov.au/about/news/wa-projects-strengthen-bird-flu-resilience" target="_blank" rel="noopener"
+             class="bg-white border border-slate-200 rounded-2xl p-4 text-center shadow-sm hover:border-emerald-400 hover:shadow-md transition group">
+            <div class="w-11 h-11 mx-auto rounded-xl bg-emerald-700 text-white flex items-center justify-center text-xs font-bold mb-2 group-hover:scale-105 transition">DCCEEW</div>
+            <div class="text-xs font-semibold text-slate-800">DCCEEW</div>
+            <div class="text-[10px] text-emerald-600 mt-0.5">WA resilience</div>
+          </a>
+          <a href="https://www.agriculture.gov.au/campaigns/birdflu/latest-data" target="_blank" rel="noopener"
+             class="bg-white border border-slate-200 rounded-2xl p-4 text-center shadow-sm hover:border-orange-400 hover:shadow-md transition group">
+            <div class="w-11 h-11 mx-auto rounded-xl bg-orange-600 text-white flex items-center justify-center text-xs font-bold mb-2 group-hover:scale-105 transition">DAFF</div>
+            <div class="text-xs font-semibold text-slate-800">DAFF</div>
+            <div class="text-[10px] text-orange-600 mt-0.5">Official data</div>
+          </a>
+          <a href="https://www.theguardian.com/world/2026/aug/20/more-than-1000-birds-found-dead-in-three-mass-mortality-events-amid-significant-h5-escalation-in-australia" target="_blank" rel="noopener"
+             class="bg-white border border-slate-200 rounded-2xl p-4 text-center shadow-sm hover:border-blue-400 hover:shadow-md transition group">
+            <div class="w-11 h-11 mx-auto rounded-xl bg-blue-700 text-white flex items-center justify-center text-lg font-bold mb-2 group-hover:scale-105 transition">G</div>
+            <div class="text-xs font-semibold text-slate-800">Guardian</div>
+            <div class="text-[10px] text-blue-600 mt-0.5">1,000+ dead</div>
+          </a>
+          <a href="https://7news.com.au/news/alarm-over-bird-flu-surge-after-mass-deaths-of-seabirds-penguins-across-two-states-c-22754162" target="_blank" rel="noopener"
+             class="bg-white border border-slate-200 rounded-2xl p-4 text-center shadow-sm hover:border-rose-400 hover:shadow-md transition group">
+            <div class="w-11 h-11 mx-auto rounded-xl bg-rose-600 text-white flex items-center justify-center text-sm font-bold mb-2 group-hover:scale-105 transition">7</div>
+            <div class="text-xs font-semibold text-slate-800">7NEWS</div>
+            <div class="text-[10px] text-rose-600 mt-0.5">Mass deaths</div>
+          </a>
+          <a href="https://www.cdc.gov.au/diseases/bird-flu-avian-influenza" target="_blank" rel="noopener"
+             class="bg-white border border-slate-200 rounded-2xl p-4 text-center shadow-sm hover:border-teal-400 hover:shadow-md transition group">
+            <div class="w-11 h-11 mx-auto rounded-xl bg-teal-700 text-white flex items-center justify-center text-xs font-bold mb-2 group-hover:scale-105 transition">CDC</div>
+            <div class="text-xs font-semibold text-slate-800">Aust. CDC</div>
+            <div class="text-[10px] text-teal-600 mt-0.5">Health advice</div>
+          </a>
+        </div>
+      </div>
+
       <!-- Species under pressure -->
       <div class="mb-8">
         <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-1">Species under pressure</h2>
-        <p class="text-sm text-slate-500 mb-4">Key birds currently most affected or at high risk in Australia</p>
+        <p class="text-sm text-slate-500 mb-4">Which birds are taking the hardest hits right now</p>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div class="bg-white border border-slate-200 rounded-2xl p-4 text-center shadow-sm">
             <div class="text-3xl mb-2">🐦</div>
@@ -273,10 +309,66 @@
         <p class="text-[11px] text-slate-400 mt-3">Other detections include silver gulls and additional seabirds. Data reflects public reports as of late August 2026.</p>
       </div>
 
+      <!-- Vaccine response -->
+      <div class="mb-8">
+        <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-1">Vaccine response</h2>
+        <p class="text-sm text-slate-500 mb-4">What’s being done — and what still isn’t</p>
+        <div class="grid sm:grid-cols-3 gap-3">
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+            <div class="text-xs font-bold uppercase tracking-wide text-teal-700 mb-2">Australia — Wildlife</div>
+            <div class="text-2xl font-extrabold text-slate-900 mb-1">~5,000</div>
+            <div class="text-sm font-semibold text-slate-800">Little penguins</div>
+            <p class="text-xs text-slate-500 mt-2 leading-relaxed">Victoria is running the world’s largest wild-bird H5 vaccination program at Phillip Island and St Kilda after the first confirmed penguin death.</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+            <div class="text-xs font-bold uppercase tracking-wide text-orange-600 mb-2">National program</div>
+            <div class="text-2xl font-extrabold text-slate-900 mb-1">1,500</div>
+            <div class="text-sm font-semibold text-slate-800">Vaccine vials secured</div>
+            <p class="text-xs text-slate-500 mt-2 leading-relaxed">Federal $2m allocation for priority captive native birds. WA black cockatoos and other threatened species next in line.</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+            <div class="text-xs font-bold uppercase tracking-wide text-slate-500 mb-2">Human trials</div>
+            <div class="text-2xl font-extrabold text-slate-900 mb-1">Global</div>
+            <div class="text-sm font-semibold text-slate-800">UK / US / others</div>
+            <p class="text-xs text-slate-500 mt-2 leading-relaxed">Large H5N1 human vaccine trials underway overseas. No general public campaign in Australia. Official human risk remains low.</p>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-3">Vaccination will not stop spread in free-ranging wild birds. It is a targeted tool to protect high-value and threatened populations.</p>
+      </div>
+
+      <!-- Global picture -->
+      <div class="mb-8">
+        <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-1">Global picture</h2>
+        <p class="text-sm text-slate-500 mb-4">Australia was the last continent. Here’s the worldwide score</p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="text-2xl font-extrabold text-slate-900">2021→</div>
+            <div class="text-xs font-semibold text-slate-700 mt-1">Ongoing global wave</div>
+            <p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed">Current H5N1 clade has spread across Asia, Europe, Africa and the Americas since 2021.</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="text-2xl font-extrabold text-slate-900">All continents</div>
+            <div class="text-xs font-semibold text-slate-700 mt-1">Now including Australia</div>
+            <p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed">Australia was the last continent free of this strain. First mainland detection: June 2026.</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="text-2xl font-extrabold text-rose-600">Millions</div>
+            <div class="text-xs font-semibold text-slate-700 mt-1">Wild birds lost overseas</div>
+            <p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed">Mass die-offs of seabirds and marine mammals recorded in Europe, the Americas and sub-Antarctic.</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="text-2xl font-extrabold text-teal-700">Low</div>
+            <div class="text-xs font-semibold text-slate-700 mt-1">Human risk (global)</div>
+            <p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed">Human cases remain rare and usually linked to close contact with infected birds or animals.</p>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-3">Australia’s detections are still limited to wild birds. No poultry cases and low human risk remain the official assessment.</p>
+      </div>
+
       <!-- How transmission works -->
       <div class="mb-8">
-        <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-1">How transmission works</h2>
-        <p class="text-sm text-slate-500 mb-4">The main pathways H5 bird flu moves between birds and into new areas</p>
+        <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-1">How it spreads</h2>
+        <p class="text-sm text-slate-500 mb-4">Four pathways driving the outbreak</p>
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
             <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center mb-3">
@@ -765,8 +857,12 @@
     })();
 
     // ========== NEWS BAR (scrolling ticker) ==========
-    // Curated list – newest first. Includes today's DCCEEW story.
+    // Curated list – newest first
     const newsItems = [
+      {
+        title: "New H5 bird flu cases detected in Merimbula and Narooma (ABC – 21 Aug)",
+        url: "https://www.abc.net.au/news/2026-08-21/nsw-bird-flu-detection-merimbula-narooma/107057502"
+      },
       {
         title: "WA projects strengthen bird flu resilience (DCCEEW – 21 Aug)",
         url: "https://www.dcceew.gov.au/about/news/wa-projects-strengthen-bird-flu-resilience"
@@ -793,17 +889,31 @@
       }
     ];
 
+    // Source badge colours
+    function sourceBadge(title, url) {
+      const t = (title + ' ' + url).toLowerCase();
+      if (t.includes('abc.net.au') || t.includes('abc ')) return { label: 'ABC', bg: '#000', color: '#fff' };
+      if (t.includes('dcceew') || t.includes('wa projects')) return { label: 'DCCEEW', bg: '#047857', color: '#fff' };
+      if (t.includes('theguardian') || t.includes('guardian')) return { label: 'Guardian', bg: '#1d4ed8', color: '#fff' };
+      if (t.includes('7news')) return { label: '7NEWS', bg: '#e11d48', color: '#fff' };
+      if (t.includes('news.com.au') || t.includes('king island')) return { label: 'News', bg: '#c2410c', color: '#fff' };
+      if (t.includes('cdc.gov.au') || t.includes('cdc')) return { label: 'CDC', bg: '#0f766e', color: '#fff' };
+      if (t.includes('agriculture.gov') || t.includes('daff')) return { label: 'DAFF', bg: '#ea580c', color: '#fff' };
+      return { label: 'News', bg: '#475569', color: '#fff' };
+    }
+
     function fillTicker(items) {
-      const ids = ['newsLink', 'newsLink2', 'newsLink3', 'newsLink4'];
-      ids.forEach((id, i) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        const item = items[i % items.length];
-        el.href = item.url;
-        el.textContent = item.title;
-      });
-      const read = document.getElementById('newsRead');
-      if (read) read.href = items[0].url;
+      const ticker = document.getElementById('newsTicker');
+      if (!ticker || !items.length) return;
+      // Duplicate list so the loop is seamless
+      const loop = [...items, ...items];
+      ticker.innerHTML = loop.map(item => {
+        const src = sourceBadge(item.title, item.url);
+        return `<a href="${item.url}" target="_blank" rel="noopener" class="ticker-item hover:opacity-90">
+          <span class="ticker-src" style="background:${src.bg};color:${src.color}">${src.label}</span>
+          <span class="text-white/90 text-xs sm:text-sm">${item.title}</span>
+        </a>`;
+      }).join('');
     }
 
     // Show curated immediately
@@ -818,13 +928,13 @@
         if (!res.ok) return;
         const data = await res.json();
         if (data.status === 'ok' && data.items && data.items.length > 0) {
-          const live = data.items.slice(0, 4).map(it => ({
+          const live = data.items.slice(0, 5).map(it => ({
             title: it.title.replace(/ - [^-]+$/, '').trim(),
             url: it.link
           }));
-          // Keep today's DCCEEW story first if present, otherwise prepend curated top
-          const merged = [newsItems[0], ...live.filter(l => !l.title.includes('WA projects'))];
-          fillTicker(merged.slice(0, 6));
+          // Keep our top curated stories first, then live
+          const merged = [...newsItems.slice(0, 2), ...live];
+          fillTicker(merged.slice(0, 8));
         }
       } catch (e) {
         // Keep curated fallback

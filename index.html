@@ -17,7 +17,9 @@
           colors: {
             ocean: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a' },
             alert: { 400: '#fb923c', 500: '#f97316', 600: '#ea580c' },
-            sky: { 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7' }
+            sky: { 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7' },
+            flock: { 50: '#fdf4ff', 100: '#fae8ff', 500: '#d946ef', 600: '#c026d3', 700: '#a21caf' },
+            sand: { 50: '#fffbeb', 100: '#fef3c7', 500: '#f59e0b', 600: '#d97706', 700: '#b45309' }
           }
         }
       }
@@ -788,6 +790,27 @@
         </div>
       </a>
 
+      <!-- What to look for (public, non-clinical) -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 mb-6 shadow-sm">
+        <h3 class="font-bold text-slate-900 text-lg mb-1">What to look for</h3>
+        <p class="text-sm text-slate-500 mb-4">Practical signs in wild birds — for public awareness, not diagnosis</p>
+        <div class="grid sm:grid-cols-2 gap-3 text-sm text-slate-700">
+          <ul class="space-y-1.5">
+            <li>• Birds that can’t stand, walk or fly properly</li>
+            <li>• Droopy or puffed-up appearance</li>
+            <li>• Unusual head or neck posture</li>
+            <li>• Tremors or lack of coordination</li>
+          </ul>
+          <ul class="space-y-1.5">
+            <li>• Breathing trouble or sneezing</li>
+            <li>• Swelling around the head or eyes</li>
+            <li>• Sudden death, especially in groups</li>
+            <li>• Multiple sick or dead birds in one place</li>
+          </ul>
+        </div>
+        <p class="text-xs text-slate-400 mt-3">Only laboratory testing can confirm H5. These signs simply help the public know when to report.</p>
+      </div>
+
       <!-- Key public messages: AVOID / RECORD / REPORT -->
       <div class="bg-slate-900 text-white rounded-2xl p-5 sm:p-6 mb-6">
         <h3 class="font-bold text-lg mb-4">If you see sick or dead birds</h3>
@@ -825,6 +848,47 @@
           <div class="text-teal-600 font-semibold text-sm shrink-0">Open →</div>
         </div>
       </a>
+
+      <!-- Citizen science -->
+      <div class="mb-8">
+        <h3 class="font-bold text-slate-900 text-lg mb-1">Citizen science</h3>
+        <p class="text-sm text-slate-500 mb-4">Join the networks tracking Australia’s birds — and help the bigger picture</p>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <a href="https://birdata.birdlife.org.au" target="_blank" rel="noopener"
+             class="bg-white border border-slate-200 rounded-xl p-4 hover:border-flock-500 hover:shadow-md transition flex gap-3 items-start">
+            <div class="w-10 h-10 rounded-lg bg-flock-100 text-flock-700 flex items-center justify-center shrink-0 text-sm font-bold">B</div>
+            <div>
+              <div class="font-bold text-slate-900 text-sm">Birdata</div>
+              <div class="text-xs text-slate-500 mt-0.5">BirdLife Australia’s national monitoring platform. Includes Bird Impact Tracker for sick/dead birds.</div>
+            </div>
+          </a>
+          <a href="https://ebird.org/australia" target="_blank" rel="noopener"
+             class="bg-white border border-slate-200 rounded-xl p-4 hover:border-sky-400 hover:shadow-md transition flex gap-3 items-start">
+            <div class="w-10 h-10 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center shrink-0 text-sm font-bold">e</div>
+            <div>
+              <div class="font-bold text-slate-900 text-sm">eBird Australia</div>
+              <div class="text-xs text-slate-500 mt-0.5">Global bird checklist app used by birders worldwide. Strong conservation data value.</div>
+            </div>
+          </a>
+          <a href="https://birdlife.org.au/record-h5-bird-flu-in-birdata/" target="_blank" rel="noopener"
+             class="bg-white border border-slate-200 rounded-xl p-4 hover:border-sand-500 hover:shadow-md transition flex gap-3 items-start">
+            <div class="w-10 h-10 rounded-lg bg-sand-100 text-sand-700 flex items-center justify-center shrink-0 text-sm font-bold">H5</div>
+            <div>
+              <div class="font-bold text-slate-900 text-sm">H5 in Birdata</div>
+              <div class="text-xs text-slate-500 mt-0.5">How to log suspected impact sightings in Birdata — after calling 1800 675 888.</div>
+            </div>
+          </a>
+          <a href="https://www.ala.org.au" target="_blank" rel="noopener"
+             class="bg-white border border-slate-200 rounded-xl p-4 hover:border-emerald-400 hover:shadow-md transition flex gap-3 items-start">
+            <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 text-sm font-bold">ALA</div>
+            <div>
+              <div class="font-bold text-slate-900 text-sm">Atlas of Living Australia</div>
+              <div class="text-xs text-slate-500 mt-0.5">National biodiversity records — contribute bird sightings to the public dataset.</div>
+            </div>
+          </a>
+        </div>
+        <p class="text-xs text-slate-400 mt-3">Urgent disease reports still go first to <strong>1800 675 888</strong>. Citizen science platforms support longer-term monitoring.</p>
+      </div>
 
       <!-- Fact sheet + QR -->
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 text-center">

@@ -117,11 +117,11 @@
             <div class="text-xs font-semibold text-teal-200 uppercase tracking-wide">Current Spotlight</div>
             <h2 class="text-lg sm:text-xl font-bold mt-0.5">King Island, Tasmania</h2>
             <p class="mt-2 text-sm sm:text-base text-teal-50 leading-snug">
-              28 little penguins + 3 crested terns found dead. Samples under H5 testing. Specialist teams deployed.
+              Penguin death toll now 51. Tasmania positives at 18. New species detection: white-fronted tern. Surveillance boosted.
             </p>
             <div class="mt-3 flex flex-wrap gap-2 text-xs">
-              <span class="px-2.5 py-1 rounded-full bg-alert-500/30 border border-alert-400/40">Under Investigation</span>
-              <span class="px-2.5 py-1 rounded-full bg-white/15">20 Aug 2026</span>
+              <span class="px-2.5 py-1 rounded-full bg-alert-500/30 border border-alert-400/40">Active escalation</span>
+              <span class="px-2.5 py-1 rounded-full bg-white/15">21 Aug 2026</span>
             </div>
           </div>
         </div>
@@ -184,8 +184,8 @@
           <div class="text-xs sm:text-sm text-slate-500 mt-1">Crested Terns</div>
         </div>
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5">
-          <div class="text-2xl sm:text-3xl font-extrabold text-sky-600 stat-number">28</div>
-          <div class="text-xs sm:text-sm text-slate-500 mt-1">Little Penguins</div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-sky-600 stat-number">51</div>
+          <div class="text-xs sm:text-sm text-slate-500 mt-1">King Island Penguins</div>
         </div>
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5">
           <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600 stat-number">0</div>
@@ -327,7 +327,7 @@
               <span class="text-2xl">🐧</span>
               <div>
                 <div class="font-bold text-slate-900">Little Penguin</div>
-                <div class="text-xs text-amber-600 font-semibold">Confirmed death · ~5,000 being vaccinated · Priority protection</div>
+                <div class="text-xs text-amber-600 font-semibold">King Island toll 51 · TAS positives 18 · VIC vaccine program</div>
               </div>
             </div>
             <ul class="p-4 space-y-2 text-sm text-slate-700">
@@ -630,16 +630,16 @@
             <span class="ml-auto text-xs bg-white/25 px-2 py-0.5 rounded-full">Focus</span>
           </div>
           <div class="p-5 space-y-3 text-sm sm:text-base text-slate-700">
-            <p><strong>28 little penguins</strong> and 3 crested terns found dead at Port of Grassy (19–20 Aug).</p>
-            <p>Samples collected for H5 testing. Carcasses being removed to limit further spread. Specialist teams surged to the area.</p>
-            <p class="text-slate-500 text-sm">Tasmania has confirmed H5 cases in wild birds. Officials expect further reports along the north-west coast and King Island.</p>
+            <p><strong>Penguin death toll now 51</strong> after another 23 were found. Tasmania’s positive detections have risen to <strong>18</strong>.</p>
+            <p>Seven new positives confirmed from birds near Currie: 4 silver gulls, 2 crested terns, and 1 <strong>white-fronted tern</strong> (first positive of that species in Tasmania). Penguin test results still pending. Samples sent to Geelong for confirmation.</p>
+            <p class="text-slate-500 text-sm">Incident Controller Wes Ford: more staff boosting surveillance, monitoring and collection. Further detections expected across the north-west and King Island.</p>
             <div class="flex flex-wrap gap-2 pt-1">
-              <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-xs font-medium">Little Penguin</span>
-              <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">Crested Tern</span>
-              <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">Testing ongoing</span>
+              <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-xs font-medium">51 Penguins</span>
+              <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">18 TAS positives</span>
+              <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">White-fronted tern</span>
             </div>
-            <a href="https://www.news.com.au/technology/science/animals/28-dead-penguins-found-on-tasmanias-king-island-spark-bird-flu-fears/news-story/fa7b6e8a2e7335d364c24b1c08801061" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-600 hover:text-rose-800 mt-2">
-              <i class="fas fa-external-link-alt"></i> Read latest reports →
+            <a href="https://www.facebook.com/share/p/19J8cFLFmE/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-600 hover:text-rose-800 mt-2">
+              <i class="fas fa-external-link-alt"></i> Latest update →
             </a>
           </div>
         </div>
@@ -1077,6 +1077,10 @@
     // Curated list – newest first
     const newsItems = [
       {
+        title: "BREAKING: 23 more dead penguins on King Island — toll now 51; Tasmania positives rise to 18",
+        url: "https://www.facebook.com/share/p/19J8cFLFmE/"
+      },
+      {
         title: "New H5 bird flu cases detected in Merimbula and Narooma (ABC – 21 Aug)",
         url: "https://www.abc.net.au/news/2026-08-21/nsw-bird-flu-detection-merimbula-narooma/107057502"
       },
@@ -1099,10 +1103,6 @@
       {
         title: "More than 1,000 birds found dead amid ‘significant’ H5 escalation (The Guardian)",
         url: "https://www.theguardian.com/world/2026/aug/20/more-than-1000-birds-found-dead-in-three-mass-mortality-events-amid-significant-h5-escalation-in-australia"
-      },
-      {
-        title: "28 dead penguins on King Island spark bird flu fears — testing underway",
-        url: "https://www.news.com.au/technology/science/animals/28-dead-penguins-found-on-tasmanias-king-island-spark-bird-flu-fears/news-story/fa7b6e8a2e7335d364c24b1c08801061"
       },
       {
         title: "Alarm over bird flu surge after mass deaths of seabirds and penguins (7NEWS)",

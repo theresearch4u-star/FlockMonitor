@@ -105,6 +105,14 @@
         <p class="mt-4 sm:mt-5 text-base sm:text-lg text-teal-50 leading-relaxed max-w-lg">
           The numbers, the locations, the species under threat — and what is being done about it.
         </p>
+        <div class="mt-5 flex flex-wrap gap-3">
+          <button onclick="switchTab('data')" class="inline-flex items-center gap-2 px-5 py-3 bg-white text-teal-800 font-bold rounded-xl text-sm shadow-lg hover:bg-teal-50 transition">
+            <i class="fas fa-qrcode"></i> Get Data & Report
+          </button>
+          <button onclick="switchTab('locality')" class="inline-flex items-center gap-2 px-5 py-3 bg-white/15 text-white font-semibold rounded-xl text-sm border border-white/30 hover:bg-white/25 transition">
+            <i class="fas fa-map-marker-alt"></i> Locality
+          </button>
+        </div>
       </div>
 
       <!-- Spotlight card (always visible) -->
@@ -161,8 +169,8 @@
         <button onclick="switchTab('impacts')" id="tab-impacts" class="tab-btn shrink-0 px-4 py-2.5 rounded-full text-sm font-semibold bg-slate-100 text-slate-700">
           <i class="fas fa-layer-group mr-1.5 opacity-70"></i>Impacts
         </button>
-        <button onclick="switchTab('data')" id="tab-data" class="tab-btn shrink-0 px-4 py-2.5 rounded-full text-sm font-semibold bg-slate-100 text-slate-700">
-          <i class="fas fa-qrcode mr-1.5 opacity-70"></i>Get Data
+        <button onclick="switchTab('data')" id="tab-data" class="tab-btn shrink-0 px-4 py-2.5 rounded-full text-sm font-bold bg-teal-600 text-white shadow-md ring-2 ring-teal-300/50">
+          <i class="fas fa-qrcode mr-1.5"></i>Get Data
         </button>
       </div>
     </div>
@@ -176,7 +184,7 @@
       <!-- Quick stats -->
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-8">
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5">
-          <div class="text-2xl sm:text-3xl font-extrabold text-ocean-700 stat-number">277</div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-ocean-700 stat-number">290</div>
           <div class="text-xs sm:text-sm text-slate-500 mt-1">Confirmed Events</div>
         </div>
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5">
@@ -231,6 +239,49 @@
         <div class="text-right">
           <div class="text-2xl sm:text-3xl font-extrabold text-teal-700" id="spotterCount">—</div>
           <div class="text-[10px] text-teal-600 tracking-wide">LIVE</div>
+        </div>
+      </div>
+
+      <!-- Flowing image strip -->
+      <div class="mb-8 -mx-4 sm:mx-0 overflow-hidden rounded-2xl">
+        <div class="flex gap-2 sm:gap-3 animate-none overflow-x-auto no-scrollbar pb-1" style="-webkit-overflow-scrolling: touch;">
+          <img src="https://images.unsplash.com/photo-1551986782-d0199b4074fd?w=600&q=80" alt="Little penguin" class="h-28 sm:h-36 w-40 sm:w-52 object-cover rounded-xl shrink-0 shadow-sm" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1444464666168-49d633b86797?w=600&q=80" alt="Seabird in flight" class="h-28 sm:h-36 w-40 sm:w-52 object-cover rounded-xl shrink-0 shadow-sm" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=600&q=80" alt="Coastal birds" class="h-28 sm:h-36 w-40 sm:w-52 object-cover rounded-xl shrink-0 shadow-sm" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1516907597798-a6bb0b3c2c5b?w=600&q=80" alt="Penguin colony" class="h-28 sm:h-36 w-40 sm:w-52 object-cover rounded-xl shrink-0 shadow-sm" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1480044961499-bf0f5e0e5f0d?w=600&q=80" alt="Wild coast" class="h-28 sm:h-36 w-40 sm:w-52 object-cover rounded-xl shrink-0 shadow-sm" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Ocean birds" class="h-28 sm:h-36 w-40 sm:w-52 object-cover rounded-xl shrink-0 shadow-sm" loading="lazy">
+        </div>
+      </div>
+
+      <!-- Global interest (stylised) -->
+      <div class="mb-8 bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-5 sm:p-6 text-white overflow-hidden relative">
+        <div class="relative z-10">
+          <h2 class="text-lg font-bold mb-1">Global interest</h2>
+          <p class="text-sm text-slate-300 mb-4">Where people are watching the Australian H5 picture</p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="bg-white/10 rounded-xl p-3 text-center">
+              <div class="text-2xl font-extrabold text-teal-300">AU</div>
+              <div class="text-[10px] text-slate-400 mt-0.5 uppercase tracking-wide">Australia</div>
+              <div class="text-xs text-white/80 mt-1">Primary focus</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-3 text-center">
+              <div class="text-2xl font-extrabold text-sky-300">EU</div>
+              <div class="text-[10px] text-slate-400 mt-0.5 uppercase tracking-wide">Europe</div>
+              <div class="text-xs text-white/80 mt-1">Following spread</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-3 text-center">
+              <div class="text-2xl font-extrabold text-amber-300">NA</div>
+              <div class="text-[10px] text-slate-400 mt-0.5 uppercase tracking-wide">N. America</div>
+              <div class="text-xs text-white/80 mt-1">Media & science</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-3 text-center">
+              <div class="text-2xl font-extrabold text-rose-300">APAC</div>
+              <div class="text-[10px] text-slate-400 mt-0.5 uppercase tracking-wide">Asia-Pacific</div>
+              <div class="text-xs text-white/80 mt-1">Regional watch</div>
+            </div>
+          </div>
+          <p class="text-[11px] text-slate-500 mt-3">Stylised interest view. Live visitor analytics can be connected later for real heat mapping.</p>
         </div>
       </div>
 
@@ -1076,6 +1127,10 @@
     // ========== NEWS BAR (scrolling ticker) ==========
     // Curated list – newest first
     const newsItems = [
+      {
+        title: "King Island H5 spreads as 51 dead penguins found (The Advocate)",
+        url: "https://www.theadvocate.com.au/story/9334891/king-island-h5-bird-flu-spreads-as-51-dead-penguins-found/"
+      },
       {
         title: "BREAKING: 23 more dead penguins on King Island — toll now 51; Tasmania positives rise to 18",
         url: "https://www.facebook.com/share/p/19J8cFLFmE/"
